@@ -1,0 +1,4 @@
+load_from:
+  - python_file:
+      relative_path: orchestration/dagster_project/definitions.py
+      attribute: defs

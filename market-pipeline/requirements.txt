@@ -1,0 +1,29 @@
+# Data
+yfinance>=0.2.40
+pandas>=2.2.0
+pyarrow>=15.0.0
+
+# Storage
+minio>=7.2.0
+
+# Database
+psycopg[binary]>=3.1.0
+SQLAlchemy>=2.0.0
+
+# Validation
+pandera>=0.19.0
+
+# Orchestration
+dagster>=1.7.0
+dagster-webserver>=1.7.0
+
+# API
+fastapi>=0.111.0
+uvicorn[standard]>=0.29.0
+
+# Config
+pyyaml>=6.0.1
+
+# Testing
+pytest>=8.0.0
+httpx>=0.27.0        # required by FastAPI TestClient

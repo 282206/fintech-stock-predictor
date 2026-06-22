@@ -128,8 +128,8 @@ def engineer(df: pd.DataFrame) -> pd.DataFrame:
         d[f"vol_{w}d"] = d["ret_1d"].rolling(w).std() * np.sqrt(252)
     delta = c.diff()
     gain  = delta.clip(lower=0).rolling(14).mean()
-    loss  = (-delta.clip(upper=0)).replace(0, np.nan).rolling(14).mean()
-    d["rsi_14"]      = 100 - 100 / (1 + gain / loss)
+    loss  = (-delta.clip(upper=0)).rolling(14).mean()
+    d["rsi_14"]      = 100 - 100 / (1 + gain / loss.replace(0, np.nan))
     ema12            = c.ewm(span=12, adjust=False).mean()
     ema26            = c.ewm(span=26, adjust=False).mean()
     d["macd"]        = ema12 - ema26
@@ -160,7 +160,7 @@ def train_model(ticker: str, period: str, model_name: str):
     raw = fetch(ticker, period)
     if raw.empty:
         return None
-    df = engineer(raw).dropna().iloc[:-1]
+    df = engineer(raw).dropna(subset=["ret_1d", "rsi_14", "macd"]).iloc[:-1]
     feat = [c for c in FEATURE_COLS if c in df.columns]
     scaler = StandardScaler()
     X_s    = scaler.fit_transform(df[feat].values)
@@ -245,7 +245,11 @@ if raw.empty:
     st.error(f"No data for {ticker}. Check your connection.")
     st.stop()
 
-df = engineer(raw).dropna()
+df = engineer(raw).dropna(subset=["ret_1d", "rsi_14", "macd"])
+
+if len(df) < 2:
+    st.error(f"Not enough data for {ticker} after preprocessing. Try a longer time period or a different instrument.")
+    st.stop()
 
 latest  = df.iloc[-1]
 prev    = df.iloc[-2]

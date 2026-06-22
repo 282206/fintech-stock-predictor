@@ -1,0 +1,31 @@
+tickers:
+  - AAPL
+  - MSFT
+  - NVDA
+  - AMZN
+  - META
+  - TSLA
+  - SPY
+  - QQQ
+
+# How many calendar days back to pull on each run
+lookback_days: 90
+
+# yfinance interval: 1d, 1h, etc.
+interval: "1d"
+
+# MinIO bucket name
+bucket: "market-data"
+
+# Bronze prefix inside the bucket
+bronze_prefix: "bronze/ohlcv"
+
+# Retry settings for yfinance calls
+extract:
+  max_retries: 3
+  backoff_base_seconds: 2.0
+
+# Data quality thresholds
+quality:
+  max_null_pct: 0.05        # 5 % nulls allowed per column
+  min_rows_per_ticker: 1
