@@ -2,6 +2,8 @@
 
 An end-to-end ML pipeline and interactive market exploration tool covering equities, forex, commodities, and bond yields — built with Streamlit, scikit-learn, and Plotly.
 
+live website: https://fintech-stock-predictor.onrender.com/
+
 ## Features
 
 ### 📈 Price & Indicators
